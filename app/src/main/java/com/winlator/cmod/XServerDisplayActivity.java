@@ -2050,7 +2050,10 @@ public class XServerDisplayActivity extends AppCompatActivity implements Navigat
         Log.d("XServerDisplayActivity", "Extracting graphics driver files");
         String driverFile = "graphics_driver/wrapper.tzst";
         String graphicsDriverLower = graphicsDriver.toLowerCase();
-        if (graphicsDriverLower.startsWith("wrapper-leegao")) {
+        if (graphicsDriverLower.startsWith("panvk-v9")) {
+            driverFile = "graphics_driver/panvk-v9.tzst";
+            envVars.put("VK_ICD_FILENAMES", imageFs.getShareDir() + "/vulkan/icd.d/panvk_v9_icd.aarch64.json");
+        } else if (graphicsDriverLower.startsWith("wrapper-leegao")) {
             driverFile = "graphics_driver/wrapper-leegao.tzst";
         } else if (graphicsDriverLower.startsWith("wrapper-v2")) {
             driverFile = "graphics_driver/wrapper-v2.tzst";
