@@ -38,26 +38,40 @@ public class PreloaderDialog {
     }
 
     public synchronized void show(int textResId) {
-        if (isShowing()) return;
+        if (activity == null || activity.isFinishing() || activity.isDestroyed() || isShowing()) return;
         close();
-        if (dialog == null) create();
-        ((TextView)dialog.findViewById(R.id.TextView)).setText(textResId);
-        dialog.show();
+        try {
+            if (dialog == null) create();
+            if (dialog != null) {
+                TextView tv = dialog.findViewById(R.id.TextView);
+                if (tv != null) tv.setText(textResId);
+                dialog.show();
+            }
+        }
+        catch (Throwable t) {}
     }
 
     public synchronized void show(String text) {
-        if (isShowing()) return;
+        if (activity == null || activity.isFinishing() || activity.isDestroyed() || isShowing()) return;
         close();
-        if (dialog == null) create();
-        ((TextView)dialog.findViewById(R.id.TextView)).setText(text);
-        dialog.show();
+        try {
+            if (dialog == null) create();
+            if (dialog != null) {
+                TextView tv = dialog.findViewById(R.id.TextView);
+                if (tv != null) tv.setText(text);
+                dialog.show();
+            }
+        }
+        catch (Throwable t) {}
     }
 
     public void showOnUiThread(final int textResId) {
+        if (activity == null || activity.isFinishing() || activity.isDestroyed()) return;
         activity.runOnUiThread(() -> show(textResId));
     }
 
     public void showOnUiThread(final String text) {
+        if (activity == null || activity.isFinishing() || activity.isDestroyed()) return;
         activity.runOnUiThread(() -> show(text));
     }
 
